@@ -1,8 +1,14 @@
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -21,43 +27,48 @@ export type Scalars = {
   AWSURL: string;
 };
 
+export type BunkerInput = {
+  id: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  createPokemon?: Maybe<Pokemon>;
+  createBunkerPoll?: Maybe<BunkerPoll>;
+  stopBunkerPoll?: Maybe<BunkerPoll>;
+  voteBunkerPoll?: Maybe<BunkerPoll>;
 };
 
-
-export type MutationCreatePokemonArgs = {
-  input: PokemonInput;
-};
-
-export type PokemonInput = {
-  height: Scalars['Int'];
+export type MutationCreateBunkerPollArgs = {
   id: Scalars['String'];
-  name: Scalars['String'];
-  weight: Scalars['Int'];
+};
+
+export type MutationStopBunkerPollArgs = {
+  id: Scalars['String'];
+};
+
+export type MutationVoteBunkerPollArgs = {
+  id: Scalars['String'];
+  vote: Scalars['String'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  getPokemon?: Maybe<Pokemon>;
-  getPokemons?: Maybe<Array<Pokemon>>;
+  getBunkerPolls?: Maybe<Array<BunkerPoll>>;
 };
 
-
-export type QueryGetPokemonArgs = {
+export type QueryGetBunkerPollsArgs = {
   id: Scalars['String'];
 };
 
 export type Subscription = {
   __typename?: 'Subscription';
-  onPokemonCreated?: Maybe<Pokemon>;
+  onBunkerPollUpdated?: Maybe<BunkerPoll>;
 };
 
-export type Pokemon = {
-  __typename?: 'pokemon';
-  height: Scalars['Int'];
+export type BunkerPoll = {
+  __typename?: 'bunkerPoll';
   id: Scalars['String'];
-  name: Scalars['String'];
-  weight: Scalars['Int'];
+  isActive: Scalars['Boolean'];
+  redVote: Scalars['Int'];
+  yellowVote: Scalars['Int'];
 };
