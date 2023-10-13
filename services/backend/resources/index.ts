@@ -8,6 +8,8 @@ import {
 
 import { BackendStack } from './stack';
 
+import 'dotenv/config';
+
 const app = new App();
 
 const stage = getAppStage(app);

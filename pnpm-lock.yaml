@@ -198,6 +198,9 @@ importers:
       dependency-cruiser:
         specifier: ^13.0.0
         version: 13.1.5
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.3.1
       dotenv-flow:
         specifier: ^3.2.0
         version: 3.2.0
@@ -365,6 +368,9 @@ importers:
       dependency-cruiser:
         specifier: ^13.1.5
         version: 13.1.5
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.3.1
       esbuild:
         specifier: ^0.19.3
         version: 0.19.3
