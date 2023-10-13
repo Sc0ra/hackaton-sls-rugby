@@ -1,4 +1,4 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
 import {
   AppsyncFunction,
   AuthorizationType,
@@ -34,7 +34,7 @@ export class BackendStack extends Stack {
     });
 
     const api = new GraphqlApi(this, 'Api', {
-      name: 'rugby',
+      name: apiName,
       definition: Definition.fromFile(
         path.join(__dirname, '../schema.graphql'),
       ),
@@ -149,6 +149,10 @@ export class BackendStack extends Stack {
       code: defaultPipelineCode,
       runtime: FunctionRuntime.JS_1_0_0,
       pipelineConfig: [stopBunkerPoll],
+    });
+
+    new CfnOutput(this, 'GraphQLAPIURL', {
+      value: api.graphqlUrl,
     });
   }
 }
