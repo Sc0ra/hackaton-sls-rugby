@@ -2,6 +2,10 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 import tmi, { ChatUserstate } from 'tmi.js';
 
+import { graphql } from 'graphql';
+
+import { getClient } from '../client/client';
+
 // Define configuration options
 const opts = {
   options: { debug: true },
@@ -13,13 +17,48 @@ let bunkerId: string | undefined = undefined;
 // Create a client with our options
 const client = new tmi.client(opts);
 
+const CREATE_BUNKER_POLL = graphql(/* GraphQL */ `
+  mutation CreateBunkerPoll($bunkerId: String!) {
+    createBunkerPoll(id: $bunkerId) {
+      id
+      yellowVote
+      redVote
+      isActive
+    }
+  }
+`);
+
+const STOP_BUNKER_POLL = graphql(/* GraphQL */ `
+  mutation StopBunkerPoll($bunkerId: String!) {
+    stopBunkerPoll(id: $bunkerId) {
+      id
+      yellowVote
+      redVote
+      isActive
+    }
+  }
+`);
+
+const VOTE_BUNKER_POLL = graphql(/* GraphQL */ `
+  mutation VoteBunkerPoll($bunkerId: String!, $vote: String!) {
+    voteBunkerPoll(id: $bunkerId, vote: $vote) {
+      id
+      yellowVote
+      redVote
+      isActive
+    }
+  }
+`);
+
 // Called every time a message comes in
 const onMessageHandler = (
-  target: string,
+  _target: string,
   context: ChatUserstate,
   msg: string,
   self: boolean,
 ) => {
+  const apolloClient = getClient();
+
   // Ignore messages from the bot
   if (self) {
     return;
@@ -36,7 +75,10 @@ const onMessageHandler = (
         break;
       }
       bunkerId = window.crypto.randomUUID();
-      void fetch(`http://api.com/bunker/${bunkerId}/start`);
+      void apolloClient?.mutate({
+        mutation: CREATE_BUNKER_POLL,
+        variables: { bunkerId },
+      });
       break;
     }
     case '!bunker-end': {
@@ -50,7 +92,10 @@ const onMessageHandler = (
         break;
       }
 
-      void fetch(`http://api.com/bunker/${bunkerId}/end`);
+      void apolloClient?.mutate({
+        mutation: STOP_BUNKER_POLL,
+        variables: { bunkerId },
+      });
       bunkerId = undefined;
       break;
     }
@@ -60,7 +105,10 @@ const onMessageHandler = (
           console.log('* No bunker to vote');
           break;
         }
-        void fetch(`http://api.com/bunker/${bunkerId}/vote/yellow`);
+        void apolloClient?.mutate({
+          mutation: VOTE_BUNKER_POLL,
+          variables: { bunkerId, vote: 'yellow' },
+        });
         break;
       }
 
@@ -69,7 +117,10 @@ const onMessageHandler = (
           console.log('* No bunker to vote');
           break;
         }
-        void fetch(`http://api.com/bunker/${bunkerId}/vote/red`);
+        void apolloClient?.mutate({
+          mutation: VOTE_BUNKER_POLL,
+          variables: { bunkerId, vote: 'red' },
+        });
         break;
       }
 

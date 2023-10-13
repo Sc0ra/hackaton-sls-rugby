@@ -40,7 +40,7 @@ const Home = (): JSX.Element => {
   const redVote = bunkerPollUpdated?.onBunkerPollUpdated.redVote ?? 0;
   const yellowVote = bunkerPollUpdated?.onBunkerPollUpdated.yellowVote ?? 0;
   const yellowPercentage =
-    redVote + yellowVote === 0 ? 0 : yellowVote / (redVote + yellowVote);
+    redVote + yellowVote === 0 ? 0.5 : yellowVote / (redVote + yellowVote);
   const value = yellowPercentage * 200 - 100;
 
   return (

@@ -30,7 +30,7 @@ export class BackendStack extends Stack {
     });
 
     const api = new GraphqlApi(this, 'Api', {
-      name: apiName,
+      name: 'rugby-axelf',
       definition: Definition.fromFile(
         path.join(__dirname, '../schema.graphql'),
       ),
