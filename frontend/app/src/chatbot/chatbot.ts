@@ -189,25 +189,25 @@ const onMessageHandler = (
         break;
       }
       if (msg.toLocaleLowerCase().includes('oui')) {
-        if (bunkerId === undefined) {
+        if (penaltyId === undefined) {
           console.log('* No penalty to vote');
           break;
         }
         void apolloClient?.mutate({
           mutation: VOTE_PENALTY_POLL,
-          variables: { bunkerId, vote: 'yes' },
+          variables: { penaltyId, vote: 'yes' },
         });
         break;
       }
 
       if (msg.toLocaleLowerCase().includes('non')) {
-        if (bunkerId === undefined) {
+        if (penaltyId === undefined) {
           console.log('* No penalty to vote');
           break;
         }
         void apolloClient?.mutate({
           mutation: VOTE_PENALTY_POLL,
-          variables: { bunkerId, vote: 'no' },
+          variables: { penaltyId, vote: 'no' },
         });
         break;
       }

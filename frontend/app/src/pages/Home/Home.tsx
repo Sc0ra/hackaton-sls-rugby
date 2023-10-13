@@ -77,7 +77,7 @@ const Home = (): JSX.Element => {
         <div
           style={{
             position: 'absolute',
-            left: '10px',
+            right: '350px',
           }}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">

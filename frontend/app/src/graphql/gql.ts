@@ -19,8 +19,8 @@ const documents = {
     "\n  mutation CreatePenaltyPoll($penaltyId: String!) {\n    createPenaltyPoll(id: $penaltyId) {\n      id\n      yesVote\n      noVote\n      isActive\n    }\n  }\n": types.CreatePenaltyPollDocument,
     "\n  mutation StopPenaltyPoll($penaltyId: String!) {\n    stopPenaltyPoll(id: $penaltyId) {\n      id\n      yesVote\n      noVote\n      isActive\n    }\n  }\n": types.StopPenaltyPollDocument,
     "\n  mutation VotePenaltyPoll($penaltyId: String!, $vote: String!) {\n    votePenaltyPoll(id: $penaltyId, vote: $vote) {\n      id\n      yesVote\n      noVote\n      isActive\n    }\n  }\n": types.VotePenaltyPollDocument,
-    "\n  query GetBunkerPolls {\n    getBunkerPolls {\n      id\n      yellowVote\n      redVote\n      isActive\n    }\n  }\n": types.GetBunkerPollsDocument,
     "\n  subscription OnBunkerPollUpdated {\n    onBunkerPollUpdated {\n      id\n      yellowVote\n      redVote\n      isActive\n    }\n  }\n": types.OnBunkerPollUpdatedDocument,
+    "\n  subscription OnPenaltyPollUpdated {\n    onPenaltyPollUpdated {\n      id\n      yesVote\n      noVote\n      isActive\n    }\n  }\n": types.OnPenaltyPollUpdatedDocument,
 };
 
 /**
@@ -64,11 +64,11 @@ export function graphql(source: "\n  mutation VotePenaltyPoll($penaltyId: String
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetBunkerPolls {\n    getBunkerPolls {\n      id\n      yellowVote\n      redVote\n      isActive\n    }\n  }\n"): (typeof documents)["\n  query GetBunkerPolls {\n    getBunkerPolls {\n      id\n      yellowVote\n      redVote\n      isActive\n    }\n  }\n"];
+export function graphql(source: "\n  subscription OnBunkerPollUpdated {\n    onBunkerPollUpdated {\n      id\n      yellowVote\n      redVote\n      isActive\n    }\n  }\n"): (typeof documents)["\n  subscription OnBunkerPollUpdated {\n    onBunkerPollUpdated {\n      id\n      yellowVote\n      redVote\n      isActive\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  subscription OnBunkerPollUpdated {\n    onBunkerPollUpdated {\n      id\n      yellowVote\n      redVote\n      isActive\n    }\n  }\n"): (typeof documents)["\n  subscription OnBunkerPollUpdated {\n    onBunkerPollUpdated {\n      id\n      yellowVote\n      redVote\n      isActive\n    }\n  }\n"];
+export function graphql(source: "\n  subscription OnPenaltyPollUpdated {\n    onPenaltyPollUpdated {\n      id\n      yesVote\n      noVote\n      isActive\n    }\n  }\n"): (typeof documents)["\n  subscription OnPenaltyPollUpdated {\n    onPenaltyPollUpdated {\n      id\n      yesVote\n      noVote\n      isActive\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
