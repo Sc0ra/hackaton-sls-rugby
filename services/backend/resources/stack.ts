@@ -14,11 +14,15 @@ import { ManagedPolicy, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 import path from 'path';
 
+import { getAppConfig } from '@hackaton-rugby/cdk-configuration';
+
 import { bundleAppSyncResolver } from './helpers';
 
 export class BackendStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
+
+    const { apiName } = getAppConfig(this);
 
     const cloudWatchLogsRole = new Role(this, 'CloudWatchLogsRole', {
       assumedBy: new ServicePrincipal('appsync.amazonaws.com'),

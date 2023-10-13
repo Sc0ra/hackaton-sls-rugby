@@ -6,6 +6,7 @@ export interface AppConfig {
   restApiConfig: {
     allowedOrigins: string[];
   };
+  apiName: string;
 }
 
 /**
@@ -18,16 +19,19 @@ const appConfigMap: Record<AppStage, AppConfig> = {
     restApiConfig: {
       allowedOrigins: ['http://localhost:3000'],
     },
+    apiName: `${process.env.DEV_NAME ?? 'dev-name'}-rugby`,
   },
   staging: {
     restApiConfig: {
       allowedOrigins: ['https://staging.my-domain.com'],
     },
+    apiName: 'rugby',
   },
   production: {
     restApiConfig: {
       allowedOrigins: ['https://www.my-domain.com'],
     },
+    apiName: '-rugby',
   },
 };
 
