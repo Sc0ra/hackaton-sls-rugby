@@ -16,7 +16,13 @@ export function request(
       SK: util.dynamodb.toDynamoDB(id),
     },
     update: {
-      expression: `SET isActive = false`,
+      expression: `SET #isActive = :false`,
+      expressionNames: {
+        '#isActive': 'isActive',
+      },
+      expressionValues: {
+        ':false': { BOOL: false },
+      },
     },
   };
 }

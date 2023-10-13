@@ -18,55 +18,55 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createPokemon?: Maybe<Pokemon>;
+  createBunkerPoll?: Maybe<BunkerPoll>;
+  stopBunkerPoll?: Maybe<BunkerPoll>;
+  voteBunkerPoll?: Maybe<BunkerPoll>;
 };
 
 
-export type MutationCreatePokemonArgs = {
-  input: PokemonInput;
-};
-
-export type PokemonInput = {
-  height: Scalars['Int']['input'];
+export type MutationCreateBunkerPollArgs = {
   id: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-  weight: Scalars['Int']['input'];
+};
+
+
+export type MutationStopBunkerPollArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationVoteBunkerPollArgs = {
+  id: Scalars['String']['input'];
+  vote: Scalars['String']['input'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  getPokemon?: Maybe<Pokemon>;
-  getPokemons?: Maybe<Array<Pokemon>>;
-};
-
-
-export type QueryGetPokemonArgs = {
-  id: Scalars['String']['input'];
+  getBunkerPolls?: Maybe<Array<BunkerPoll>>;
 };
 
 export type Subscription = {
   __typename?: 'Subscription';
-  onPokemonCreated?: Maybe<Pokemon>;
+  onBunkerPollUpdated?: Maybe<BunkerPoll>;
 };
 
-export type Pokemon = {
-  __typename?: 'pokemon';
-  height: Scalars['Int']['output'];
+export type BunkerPoll = {
+  __typename?: 'bunkerPoll';
   id: Scalars['String']['output'];
-  name: Scalars['String']['output'];
-  weight: Scalars['Int']['output'];
+  isActive: Scalars['Boolean']['output'];
+  redVote: Scalars['Int']['output'];
+  yellowVote: Scalars['Int']['output'];
 };
 
-export type GetQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetBunkerPollsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetQuery = { __typename?: 'Query', getPokemons?: Array<{ __typename?: 'pokemon', id: string, name: string, weight: number, height: number }> | null };
+export type GetBunkerPollsQuery = { __typename?: 'Query', getBunkerPolls?: Array<{ __typename?: 'bunkerPoll', id: string, yellowVote: number, redVote: number, isActive: boolean }> | null };
 
-export type OnPokemonCreatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type OnPokemonCreatedSubscription = { __typename?: 'Subscription', onPokemonCreated?: { __typename?: 'pokemon', id: string, name: string } | null };
+export type OnBunkerPollUpdatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export const GetDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Get"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getPokemons"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"weight"}},{"kind":"Field","name":{"kind":"Name","value":"height"}}]}}]}}]} as unknown as DocumentNode<GetQuery, GetQueryVariables>;
-export const OnPokemonCreatedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"OnPokemonCreated"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"onPokemonCreated"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<OnPokemonCreatedSubscription, OnPokemonCreatedSubscriptionVariables>;
+export type OnBunkerPollUpdatedSubscription = { __typename?: 'Subscription', onBunkerPollUpdated?: { __typename?: 'bunkerPoll', id: string, yellowVote: number, redVote: number, isActive: boolean } | null };
+
+
+export const GetBunkerPollsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBunkerPolls"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getBunkerPolls"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"yellowVote"}},{"kind":"Field","name":{"kind":"Name","value":"redVote"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}}]}}]}}]} as unknown as DocumentNode<GetBunkerPollsQuery, GetBunkerPollsQueryVariables>;
+export const OnBunkerPollUpdatedDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"OnBunkerPollUpdated"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"onBunkerPollUpdated"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"yellowVote"}},{"kind":"Field","name":{"kind":"Name","value":"redVote"}},{"kind":"Field","name":{"kind":"Name","value":"isActive"}}]}}]}}]} as unknown as DocumentNode<OnBunkerPollUpdatedSubscription, OnBunkerPollUpdatedSubscriptionVariables>;

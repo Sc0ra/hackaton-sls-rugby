@@ -13,8 +13,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  query Get {\n    getPokemons {\n      id\n      name\n      weight\n      height\n    }\n  }\n": types.GetDocument,
-    "\n  subscription OnPokemonCreated {\n    onPokemonCreated {\n      id\n      name\n    }\n  }\n": types.OnPokemonCreatedDocument,
+    "\n  query GetBunkerPolls {\n    getBunkerPolls {\n      id\n      yellowVote\n      redVote\n      isActive\n    }\n  }\n": types.GetBunkerPollsDocument,
+    "\n  subscription OnBunkerPollUpdated {\n    onBunkerPollUpdated {\n      id\n      yellowVote\n      redVote\n      isActive\n    }\n  }\n": types.OnBunkerPollUpdatedDocument,
 };
 
 /**
@@ -34,11 +34,11 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Get {\n    getPokemons {\n      id\n      name\n      weight\n      height\n    }\n  }\n"): (typeof documents)["\n  query Get {\n    getPokemons {\n      id\n      name\n      weight\n      height\n    }\n  }\n"];
+export function graphql(source: "\n  query GetBunkerPolls {\n    getBunkerPolls {\n      id\n      yellowVote\n      redVote\n      isActive\n    }\n  }\n"): (typeof documents)["\n  query GetBunkerPolls {\n    getBunkerPolls {\n      id\n      yellowVote\n      redVote\n      isActive\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  subscription OnPokemonCreated {\n    onPokemonCreated {\n      id\n      name\n    }\n  }\n"): (typeof documents)["\n  subscription OnPokemonCreated {\n    onPokemonCreated {\n      id\n      name\n    }\n  }\n"];
+export function graphql(source: "\n  subscription OnBunkerPollUpdated {\n    onBunkerPollUpdated {\n      id\n      yellowVote\n      redVote\n      isActive\n    }\n  }\n"): (typeof documents)["\n  subscription OnBunkerPollUpdated {\n    onBunkerPollUpdated {\n      id\n      yellowVote\n      redVote\n      isActive\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

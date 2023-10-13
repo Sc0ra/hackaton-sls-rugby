@@ -5,7 +5,7 @@ type bunkerPoll {
   isActive: Boolean!
 }
 type Query {
-  getBunkerPolls(id: String!): [bunkerPoll!]
+  getBunkerPolls: [bunkerPoll!]
 }
 type Mutation {
   createBunkerPoll(id: String!): bunkerPoll

@@ -1,41 +1,42 @@
 import { useQuery, useSubscription } from '@apollo/client';
 import { Box } from '@mui/system';
-import { useEffect } from 'react';
 
 import { graphql } from 'graphql';
-import { Pokemon } from 'graphql/graphql';
+import { BunkerPoll } from 'graphql/graphql';
 
-const GET_POKEMONS = graphql(/* GraphQL */ `
-  query Get {
-    getPokemons {
+const GET_BUNKER_POLLS = graphql(/* GraphQL */ `
+  query GetBunkerPolls {
+    getBunkerPolls {
       id
-      name
-      weight
-      height
+      yellowVote
+      redVote
+      isActive
     }
   }
 `);
 
-const POKEMON_CREATED_SUBSCRIPTION = graphql(`
-  subscription OnPokemonCreated {
-    onPokemonCreated {
+const BUNKER_POLL_UPDATED_SUBSCRIPTION = graphql(`
+  subscription OnBunkerPollUpdated {
+    onBunkerPollUpdated {
       id
-      name
+      yellowVote
+      redVote
+      isActive
     }
   }
 `);
 
 const Home = (): JSX.Element => {
-  const { refetch } = useQuery<{ getPokemons: Pokemon[] }>(GET_POKEMONS);
+  const { data: bunkerPolls } = useQuery<{ getBunkerPolls: BunkerPoll[] }>(
+    GET_BUNKER_POLLS,
+  );
 
-  const { data: pokemonCreated } = useSubscription<Pokemon>(
-    POKEMON_CREATED_SUBSCRIPTION,
+  const { data: bunkerPollUpdated } = useSubscription<BunkerPoll>(
+    BUNKER_POLL_UPDATED_SUBSCRIPTION,
     {},
   );
 
-  useEffect(() => {
-    void refetch();
-  }, [pokemonCreated, refetch]);
+  console.log({ bunkerPolls, bunkerPollUpdated });
 
   const { redCount, yellowCount } = { redCount: 50, yellowCount: 100 };
   const yellowPercentage =

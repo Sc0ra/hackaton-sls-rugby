@@ -9,8 +9,6 @@ export function request(
 ): DynamoDBUpdateItemRequest {
   const { id, vote } = ctx.args;
 
-  const keyToUpdate = vote === 'red' ? 'redVote' : 'yellowVote';
-
   return {
     operation: 'UpdateItem',
     key: {
@@ -18,7 +16,13 @@ export function request(
       SK: util.dynamodb.toDynamoDB(id),
     },
     update: {
-      expression: `SET ${keyToUpdate} = if_not_exists(${keyToUpdate}, 0) + 1`,
+      expression: `ADD #voteKey :inc`,
+      expressionNames: {
+        '#voteKey': vote === 'red' ? 'redVote' : 'yellowVote',
+      },
+      expressionValues: {
+        ':inc': { N: 1 },
+      },
     },
   };
 }

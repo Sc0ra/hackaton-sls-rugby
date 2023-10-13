@@ -25,8 +25,6 @@ const onMessageHandler = (
     return;
   }
 
-  console.log({ target, context });
-
   // Remove whitespace from chat message
   const commandName = msg.trim();
 
