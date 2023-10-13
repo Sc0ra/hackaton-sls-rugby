@@ -4,9 +4,6 @@ type bunkerPoll {
   redVote: Int!
   isActive: Boolean!
 }
-input BunkerInput {
-  id: String!
-}
 type Query {
   getBunkerPolls(id: String!): [bunkerPoll!]
 }

@@ -27,10 +27,6 @@ export type Scalars = {
   AWSURL: string;
 };
 
-export type BunkerInput = {
-  id: Scalars['String'];
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   createBunkerPoll?: Maybe<BunkerPoll>;
