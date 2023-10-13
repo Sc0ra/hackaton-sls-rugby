@@ -7,9 +7,6 @@ import { BunkerPoll } from 'types/appsync';
 export function request(): DynamoDBScanRequest {
   return {
     operation: 'Scan',
-    filter: {
-      expression: 'isActive = true',
-    },
   };
 }
 
