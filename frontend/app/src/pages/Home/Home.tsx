@@ -2,7 +2,6 @@ import { useQuery, useSubscription } from '@apollo/client';
 import { Box } from '@mui/system';
 import { useEffect } from 'react';
 
-import { PokemonCard } from 'components';
 import { graphql } from 'graphql';
 import { Pokemon } from 'graphql/graphql';
 
@@ -27,7 +26,7 @@ const POKEMON_CREATED_SUBSCRIPTION = graphql(`
 `);
 
 const Home = (): JSX.Element => {
-  const { data, refetch } = useQuery<{ getPokemons: Pokemon[] }>(GET_POKEMONS);
+  const { refetch } = useQuery<{ getPokemons: Pokemon[] }>(GET_POKEMONS);
 
   const { data: pokemonCreated } = useSubscription<Pokemon>(
     POKEMON_CREATED_SUBSCRIPTION,
@@ -38,6 +37,11 @@ const Home = (): JSX.Element => {
     void refetch();
   }, [pokemonCreated, refetch]);
 
+  const { redCount, yellowCount } = { redCount: 50, yellowCount: 100 };
+  const yellowPercentage =
+    redCount + yellowCount === 0 ? 0 : yellowCount / (redCount + yellowCount);
+  const value = yellowPercentage * 200 - 100;
+
   return (
     <Box
       display="flex"
@@ -47,10 +51,29 @@ const Home = (): JSX.Element => {
       textAlign="center"
       height="100vh"
       maxWidth="100%"
+      style={{ backgroundColor: 'green' }}
     >
-      {(data?.getPokemons ?? []).map(pokemon => (
-        <PokemonCard key={pokemon.id} {...pokemon} />
-      ))}
+      <div
+        style={{
+          width: '300px',
+          height: '500px',
+          backgroundColor: 'yellow',
+          position: 'absolute',
+          borderRadius: '8px',
+          left: '10px',
+        }}
+      />
+      <div
+        style={{
+          width: '300px',
+          height: '500px',
+          backgroundColor: 'red',
+          clipPath: `polygon(${value}% 100%, 100% ${value}%, 100% 100%)`,
+          position: 'absolute',
+          borderRadius: '8px',
+          left: '10px',
+        }}
+      />
     </Box>
   );
 };
