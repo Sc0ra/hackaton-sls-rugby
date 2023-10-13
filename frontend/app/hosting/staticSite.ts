@@ -12,13 +12,13 @@ import { BlockPublicAccess, Bucket } from 'aws-cdk-lib/aws-s3';
 import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { Construct } from 'constructs';
 
-import { defaultStage, getAppStage } from './utils/getAppStage';
+import { defaultStage, getAppStage } from '@hackaton-rugby/cdk-configuration';
 
 export class StaticSite extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const stage = getAppStage(this);
+    const stage = getAppStage(scope);
 
     const cloudfrontOAI = new OriginAccessIdentity(this, 'cloudfront-OAI');
 

@@ -1,15 +1,17 @@
 import { App } from 'aws-cdk-lib';
 
-import { FrontendStack } from './stack';
-import { getAppStage } from './utils/getAppStage';
+import {
+  getAppStage,
+  getStackName,
+  region,
+} from '@hackaton-rugby/cdk-configuration';
 
-const projectName = 'swarmion-starter';
-const region = 'eu-west-1';
+import { FrontendStack } from './stack';
 
 const app = new App();
 
 const stage = getAppStage(app);
 
-new FrontendStack(app, `${projectName}-${stage}`, {
+new FrontendStack(app, getStackName('frontend', stage), {
   env: { region },
 });
