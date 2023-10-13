@@ -12,9 +12,8 @@ export const createClient = async (): Promise<
   ApolloClient<NormalizedCacheObject>
 > => {
   client = await createAppSyncApolloClient({
-    appSyncApiUrl:
-      'https://q42jhugczngnlafxcv27nc676e.appsync-api.eu-west-1.amazonaws.com/graphql',
-    getJwtToken: () => Promise.resolve('da2-zrz3ahlckzcefb7uxkc73nrhja'),
+    appSyncApiUrl: import.meta.env.VITE_API_URL,
+    getJwtToken: () => Promise.resolve(import.meta.env.VITE_API_KEY),
     cacheConfig: {},
     connectToDevTools: true,
   });
