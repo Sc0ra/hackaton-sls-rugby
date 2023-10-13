@@ -31,16 +31,16 @@ const Home = (): JSX.Element => {
     GET_BUNKER_POLLS,
   );
 
-  const { data: bunkerPollUpdated } = useSubscription<BunkerPoll>(
-    BUNKER_POLL_UPDATED_SUBSCRIPTION,
-    {},
-  );
+  const { data: bunkerPollUpdated } = useSubscription<{
+    onBunkerPollUpdated: BunkerPoll;
+  }>(BUNKER_POLL_UPDATED_SUBSCRIPTION, {});
 
   console.log({ bunkerPolls, bunkerPollUpdated });
 
-  const { redCount, yellowCount } = { redCount: 50, yellowCount: 100 };
+  const redVote = bunkerPollUpdated?.onBunkerPollUpdated.redVote ?? 0;
+  const yellowVote = bunkerPollUpdated?.onBunkerPollUpdated.yellowVote ?? 0;
   const yellowPercentage =
-    redCount + yellowCount === 0 ? 0 : yellowCount / (redCount + yellowCount);
+    redVote + yellowVote === 0 ? 0 : yellowVote / (redVote + yellowVote);
   const value = yellowPercentage * 200 - 100;
 
   return (
@@ -53,27 +53,31 @@ const Home = (): JSX.Element => {
       height="100vh"
       maxWidth="100%"
     >
-      <div
-        style={{
-          width: '300px',
-          height: '500px',
-          backgroundColor: 'yellow',
-          position: 'absolute',
-          borderRadius: '8px',
-          right: '10px',
-        }}
-      />
-      <div
-        style={{
-          width: '300px',
-          height: '500px',
-          backgroundColor: 'red',
-          clipPath: `polygon(${value}% 100%, 100% ${value}%, 100% 100%)`,
-          position: 'absolute',
-          borderRadius: '8px',
-          right: '10px',
-        }}
-      />
+      {bunkerPollUpdated?.onBunkerPollUpdated.isActive === true && (
+        <>
+          <div
+            style={{
+              width: '300px',
+              height: '500px',
+              backgroundColor: 'yellow',
+              position: 'absolute',
+              borderRadius: '8px',
+              right: '10px',
+            }}
+          />
+          <div
+            style={{
+              width: '300px',
+              height: '500px',
+              backgroundColor: 'red',
+              clipPath: `polygon(${value}% 100%, 100% ${value}%, 100% 100%)`,
+              position: 'absolute',
+              borderRadius: '8px',
+              right: '10px',
+            }}
+          />
+        </>
+      )}
     </Box>
   );
 };
