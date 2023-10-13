@@ -24,12 +24,20 @@ export type Scalars = {
 export type Mutation = {
   __typename?: 'Mutation';
   createBunkerPoll?: Maybe<BunkerPoll>;
+  createPenaltyPoll?: Maybe<PenaltyPoll>;
   stopBunkerPoll?: Maybe<BunkerPoll>;
+  stopPenaltyPoll?: Maybe<PenaltyPoll>;
   voteBunkerPoll?: Maybe<BunkerPoll>;
+  votePenaltyPoll?: Maybe<PenaltyPoll>;
 };
 
 
 export type MutationCreateBunkerPollArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationCreatePenaltyPollArgs = {
   id: Scalars['String'];
 };
 
@@ -39,7 +47,18 @@ export type MutationStopBunkerPollArgs = {
 };
 
 
+export type MutationStopPenaltyPollArgs = {
+  id: Scalars['String'];
+};
+
+
 export type MutationVoteBunkerPollArgs = {
+  id: Scalars['String'];
+  vote: Scalars['String'];
+};
+
+
+export type MutationVotePenaltyPollArgs = {
   id: Scalars['String'];
   vote: Scalars['String'];
 };
@@ -47,11 +66,13 @@ export type MutationVoteBunkerPollArgs = {
 export type Query = {
   __typename?: 'Query';
   getBunkerPolls?: Maybe<Array<BunkerPoll>>;
+  getPenaltyPolls?: Maybe<Array<PenaltyPoll>>;
 };
 
 export type Subscription = {
   __typename?: 'Subscription';
   onBunkerPollUpdated?: Maybe<BunkerPoll>;
+  onPenaltyPollUpdated?: Maybe<PenaltyPoll>;
 };
 
 export type BunkerPoll = {
@@ -60,4 +81,12 @@ export type BunkerPoll = {
   isActive: Scalars['Boolean'];
   redVote: Scalars['Int'];
   yellowVote: Scalars['Int'];
+};
+
+export type PenaltyPoll = {
+  __typename?: 'penaltyPoll';
+  id: Scalars['String'];
+  isActive: Scalars['Boolean'];
+  noVote: Scalars['Int'];
+  yesVote: Scalars['Int'];
 };

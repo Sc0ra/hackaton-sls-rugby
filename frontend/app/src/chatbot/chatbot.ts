@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 /* eslint-disable complexity */
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 import tmi, { ChatUserstate } from 'tmi.js';
@@ -13,6 +14,7 @@ const opts = {
 };
 
 let bunkerId: string | undefined = undefined;
+let penaltyId: string | undefined = undefined;
 
 // Create a client with our options
 const client = new tmi.client(opts);
@@ -50,6 +52,39 @@ const VOTE_BUNKER_POLL = graphql(/* GraphQL */ `
   }
 `);
 
+const CREATE_PENALTY_POLL = graphql(/* GraphQL */ `
+  mutation CreatePenaltyPoll($penaltyId: String!) {
+    createPenaltyPoll(id: $penaltyId) {
+      id
+      yesVote
+      noVote
+      isActive
+    }
+  }
+`);
+
+const STOP_PENALTY_POLL = graphql(/* GraphQL */ `
+  mutation StopPenaltyPoll($penaltyId: String!) {
+    stopPenaltyPoll(id: $penaltyId) {
+      id
+      yesVote
+      noVote
+      isActive
+    }
+  }
+`);
+
+const VOTE_PENALTY_POLL = graphql(/* GraphQL */ `
+  mutation VotePenaltyPoll($penaltyId: String!, $vote: String!) {
+    votePenaltyPoll(id: $penaltyId, vote: $vote) {
+      id
+      yesVote
+      noVote
+      isActive
+    }
+  }
+`);
+
 // Called every time a message comes in
 const onMessageHandler = (
   _target: string,
@@ -81,6 +116,18 @@ const onMessageHandler = (
       });
       break;
     }
+    case '!penalty': {
+      if (context.username !== 'sc0ra') {
+        console.log('* Not allowed to start a bunker');
+        break;
+      }
+      penaltyId = window.crypto.randomUUID();
+      void apolloClient?.mutate({
+        mutation: CREATE_PENALTY_POLL,
+        variables: { penaltyId },
+      });
+      break;
+    }
     case '!bunker-end': {
       if (context.username !== 'sc0ra') {
         console.log('* Not allowed to start a bunker');
@@ -97,6 +144,24 @@ const onMessageHandler = (
         variables: { bunkerId },
       });
       bunkerId = undefined;
+      break;
+    }
+    case '!penalty-end': {
+      if (context.username !== 'sc0ra') {
+        console.log('* Not allowed to start a bunker');
+        break;
+      }
+
+      if (penaltyId === undefined) {
+        console.log('* No bunker to end');
+        break;
+      }
+
+      void apolloClient?.mutate({
+        mutation: STOP_PENALTY_POLL,
+        variables: { penaltyId },
+      });
+      penaltyId = undefined;
       break;
     }
     default: {
@@ -120,6 +185,29 @@ const onMessageHandler = (
         void apolloClient?.mutate({
           mutation: VOTE_BUNKER_POLL,
           variables: { bunkerId, vote: 'red' },
+        });
+        break;
+      }
+      if (msg.toLocaleLowerCase().includes('oui')) {
+        if (bunkerId === undefined) {
+          console.log('* No penalty to vote');
+          break;
+        }
+        void apolloClient?.mutate({
+          mutation: VOTE_PENALTY_POLL,
+          variables: { bunkerId, vote: 'yes' },
+        });
+        break;
+      }
+
+      if (msg.toLocaleLowerCase().includes('non')) {
+        if (bunkerId === undefined) {
+          console.log('* No penalty to vote');
+          break;
+        }
+        void apolloClient?.mutate({
+          mutation: VOTE_PENALTY_POLL,
+          variables: { bunkerId, vote: 'no' },
         });
         break;
       }

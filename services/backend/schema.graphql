@@ -4,18 +4,32 @@ type bunkerPoll {
   redVote: Int!
   isActive: Boolean!
 }
+type penaltyPoll {
+  id: String!
+  yesVote: Int!
+  noVote: Int!
+  isActive: Boolean!
+}
 type Query {
   getBunkerPolls: [bunkerPoll!]
+  getPenaltyPolls: [penaltyPoll!]
 }
 type Mutation {
   createBunkerPoll(id: String!): bunkerPoll
   voteBunkerPoll(id: String!, vote: String!): bunkerPoll
   stopBunkerPoll(id: String!): bunkerPoll
+  createPenaltyPoll(id: String!): penaltyPoll
+  votePenaltyPoll(id: String!, vote: String!): penaltyPoll
+  stopPenaltyPoll(id: String!): penaltyPoll
 }
 
 type Subscription {
   onBunkerPollUpdated: bunkerPoll
     @aws_subscribe(
       mutations: ["createBunkerPoll", "voteBunkerPoll", "stopBunkerPoll"]
+    )
+  onPenaltyPollUpdated: penaltyPoll
+    @aws_subscribe(
+      mutations: ["createPenaltyPoll", "votePenaltyPoll", "stopPenaltyPoll"]
     )
 }

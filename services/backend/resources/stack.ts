@@ -71,25 +71,6 @@ export class BackendStack extends Stack {
     }
   `);
 
-    const getBunkerPolls = new AppsyncFunction(this, 'getBunkerPolls', {
-      api,
-      name: 'getBunkerPolls',
-      dataSource: rugbyDS,
-      code: bundleAppSyncResolver(
-        path.join(__dirname, '../resolvers/getBunkerPolls.ts'),
-      ),
-      runtime: FunctionRuntime.JS_1_0_0,
-    });
-
-    new Resolver(this, 'QueryGetBunkerPollsResolver', {
-      api,
-      typeName: 'Query',
-      fieldName: 'getBunkerPolls',
-      code: defaultPipelineCode,
-      runtime: FunctionRuntime.JS_1_0_0,
-      pipelineConfig: [getBunkerPolls],
-    });
-
     const createBunkerPoll = new AppsyncFunction(this, 'CreateBunkerPoll', {
       api,
       name: 'createBunkerPoll',
@@ -145,6 +126,63 @@ export class BackendStack extends Stack {
       code: defaultPipelineCode,
       runtime: FunctionRuntime.JS_1_0_0,
       pipelineConfig: [stopBunkerPoll],
+    });
+
+    const createPenaltyPoll = new AppsyncFunction(this, 'CreatePenaltyPoll', {
+      api,
+      name: 'createPenaltyPoll',
+      dataSource: rugbyDS,
+      code: bundleAppSyncResolver(
+        path.join(__dirname, '../resolvers/createPenaltyPoll.ts'),
+      ),
+      runtime: FunctionRuntime.JS_1_0_0,
+    });
+
+    new Resolver(this, 'MutationCreatePenaltyPollResolver', {
+      api,
+      typeName: 'Mutation',
+      fieldName: 'createPenaltyPoll',
+      code: defaultPipelineCode,
+      runtime: FunctionRuntime.JS_1_0_0,
+      pipelineConfig: [createPenaltyPoll],
+    });
+
+    const votePenaltyPoll = new AppsyncFunction(this, 'VotePenaltyPoll', {
+      api,
+      name: 'votePenaltyPoll',
+      dataSource: rugbyDS,
+      code: bundleAppSyncResolver(
+        path.join(__dirname, '../resolvers/votePenaltyPoll.ts'),
+      ),
+      runtime: FunctionRuntime.JS_1_0_0,
+    });
+
+    new Resolver(this, 'MutationVotePenaltyPollResolver', {
+      api,
+      typeName: 'Mutation',
+      fieldName: 'votePenaltyPoll',
+      code: defaultPipelineCode,
+      runtime: FunctionRuntime.JS_1_0_0,
+      pipelineConfig: [votePenaltyPoll],
+    });
+
+    const stopPenaltyPoll = new AppsyncFunction(this, 'StopPenaltyPoll', {
+      api,
+      name: 'stopPenaltyPoll',
+      dataSource: rugbyDS,
+      code: bundleAppSyncResolver(
+        path.join(__dirname, '../resolvers/stopPenaltyPoll.ts'),
+      ),
+      runtime: FunctionRuntime.JS_1_0_0,
+    });
+
+    new Resolver(this, 'MutationStopPenaltyPollResolver', {
+      api,
+      typeName: 'Mutation',
+      fieldName: 'stopPenaltyPoll',
+      code: defaultPipelineCode,
+      runtime: FunctionRuntime.JS_1_0_0,
+      pipelineConfig: [stopPenaltyPoll],
     });
 
     new CfnOutput(this, 'GraphQLAPIURL', {
