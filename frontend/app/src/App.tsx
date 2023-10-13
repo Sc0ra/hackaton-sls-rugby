@@ -37,15 +37,15 @@ export const createAppSyncApolloClient = async ({
     connectToDevTools,
   });
 
-const client = await createAppSyncApolloClient({
-  appSyncApiUrl:
-    'https://q42jhugczngnlafxcv27nc676e.appsync-api.eu-west-1.amazonaws.com/graphql',
-  getJwtToken: () => Promise.resolve('da2-zrz3ahlckzcefb7uxkc73nrhja'),
-  cacheConfig: {},
-  connectToDevTools: true,
-});
+const App = async (): Promise<JSX.Element> => {
+  const client = await createAppSyncApolloClient({
+    appSyncApiUrl:
+      'https://q42jhugczngnlafxcv27nc676e.appsync-api.eu-west-1.amazonaws.com/graphql',
+    getJwtToken: () => Promise.resolve('da2-zrz3ahlckzcefb7uxkc73nrhja'),
+    cacheConfig: {},
+    connectToDevTools: true,
+  });
 
-const App = (): JSX.Element => {
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={muiTheme}>
