@@ -1,0 +1,22 @@
+type pokemon {
+  id: String!
+  name: String!
+  height: Int!
+  weight: Int!
+}
+input PokemonInput {
+  id: String!
+  name: String!
+  height: Int!
+  weight: Int!
+}
+type Query {
+  getPokemon(id: String!): pokemon
+  getPokemons: [pokemon!]
+}
+type Mutation {
+  createPokemon(input: PokemonInput!): pokemon
+}
+type Subscription {
+  onPokemonCreated: pokemon @aws_subscribe(mutations: ["createPokemon"])
+}
