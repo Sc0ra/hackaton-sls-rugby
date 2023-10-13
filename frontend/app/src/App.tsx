@@ -8,6 +8,7 @@ import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/system';
 import { IntlProvider } from 'react-intl';
 
+import { startChatBot } from 'chatbot/chatbot';
 import { flattenMessages } from 'services/i18n';
 import { muiTheme } from 'theme';
 import { frFRMessages } from 'translations';
@@ -37,14 +38,16 @@ export const createAppSyncApolloClient = async ({
     connectToDevTools,
   });
 
-const App = async (): Promise<JSX.Element> => {
-  const client = await createAppSyncApolloClient({
-    appSyncApiUrl:
-      'https://q42jhugczngnlafxcv27nc676e.appsync-api.eu-west-1.amazonaws.com/graphql',
-    getJwtToken: () => Promise.resolve('da2-zrz3ahlckzcefb7uxkc73nrhja'),
-    cacheConfig: {},
-    connectToDevTools: true,
-  });
+const client = await createAppSyncApolloClient({
+  appSyncApiUrl:
+    'https://q42jhugczngnlafxcv27nc676e.appsync-api.eu-west-1.amazonaws.com/graphql',
+  getJwtToken: () => Promise.resolve('da2-zrz3ahlckzcefb7uxkc73nrhja'),
+  cacheConfig: {},
+  connectToDevTools: true,
+});
+
+const App = (): JSX.Element => {
+  startChatBot();
 
   return (
     <ApolloProvider client={client}>
