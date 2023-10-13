@@ -51,7 +51,6 @@ const Home = (): JSX.Element => {
       textAlign="center"
       height="100vh"
       maxWidth="100%"
-      style={{ backgroundColor: 'green' }}
     >
       <div
         style={{
@@ -60,7 +59,7 @@ const Home = (): JSX.Element => {
           backgroundColor: 'yellow',
           position: 'absolute',
           borderRadius: '8px',
-          left: '10px',
+          right: '10px',
         }}
       />
       <div
@@ -71,7 +70,7 @@ const Home = (): JSX.Element => {
           clipPath: `polygon(${value}% 100%, 100% ${value}%, 100% 100%)`,
           position: 'absolute',
           borderRadius: '8px',
-          left: '10px',
+          right: '10px',
         }}
       />
     </Box>

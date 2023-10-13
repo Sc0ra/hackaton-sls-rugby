@@ -2,32 +2,36 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { Context, DynamoDBPutItemRequest, util } from '@aws-appsync/utils';
 
-import { createItem } from 'lib/helpers';
-
-import { MutationCreatePokemonArgs, Pokemon } from '../types/appsync';
+import { BunkerPoll, MutationCreateBunkerPollArgs } from '../types/appsync';
 
 export function request(
-  ctx: Context<MutationCreatePokemonArgs>,
+  ctx: Context<MutationCreateBunkerPollArgs>,
 ): DynamoDBPutItemRequest {
-  const item = createItem(ctx.args.input);
-
-  const id = util.autoId();
+  const id = ctx.args.id;
 
   return {
     operation: 'PutItem',
     key: {
-      PK: util.dynamodb.toDynamoDB(`POKEMON#${id}`),
-      SK: util.dynamodb.toDynamoDB(`POKEMON#${id}`),
+      PK: util.dynamodb.toDynamoDB(`BUNKER_POLL`),
+      SK: util.dynamodb.toDynamoDB(id),
     },
     attributeValues: util.dynamodb.toMapValues({
       id,
-      ...item,
+      yellowVote: 0,
+      redVote: 0,
+      isActive: true,
     }),
   };
 }
 
 export function response(
-  ctx: Context<MutationCreatePokemonArgs, object, object, object, Pokemon>,
+  ctx: Context<
+    MutationCreateBunkerPollArgs,
+    object,
+    object,
+    object,
+    BunkerPoll
+  >,
 ) {
   return ctx.result;
 }

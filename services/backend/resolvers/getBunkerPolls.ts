@@ -2,16 +2,19 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { Context, DynamoDBScanRequest } from '@aws-appsync/utils';
 
-import { Pokemon } from 'types/appsync';
+import { BunkerPoll } from 'types/appsync';
 
 export function request(): DynamoDBScanRequest {
   return {
     operation: 'Scan',
+    filter: {
+      expression: 'isActive = true',
+    },
   };
 }
 
 export function response(
-  ctx: Context<object, object, object, object, { items: Pokemon[] }>,
+  ctx: Context<object, object, object, object, { items: BunkerPoll[] }>,
 ) {
   return ctx.result.items;
 }

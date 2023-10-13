@@ -1,22 +1,22 @@
-type pokemon {
+type bunkerPoll {
   id: String!
-  name: String!
-  height: Int!
-  weight: Int!
+  yellowVote: Int!
+  redVote: Int!
+  isActive: Boolean!
 }
-input PokemonInput {
+input BunkerInput {
   id: String!
-  name: String!
-  height: Int!
-  weight: Int!
 }
 type Query {
-  getPokemon(id: String!): pokemon
-  getPokemons: [pokemon!]
+  getBunkerPolls(id: String!): [bunkerPoll!]
 }
 type Mutation {
-  createPokemon(input: PokemonInput!): pokemon
+  createBunkerPoll(id: String!): bunkerPoll
+  voteBunkerPoll(id: String!, vote: String!): bunkerPoll
+  stopBunkerPoll(id: String!): bunkerPoll
 }
+
 type Subscription {
-  onPokemonCreated: pokemon @aws_subscribe(mutations: ["createPokemon"])
+  onBunkerPollUpdated: bunkerPoll
+    @aws_subscribe(mutations: ["createBunker", "voteBunkerPoll"])
 }
