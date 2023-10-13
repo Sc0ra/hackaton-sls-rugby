@@ -21,7 +21,6 @@ export class BackendStack extends Stack {
     super(scope, id, props);
 
     const cloudWatchLogsRole = new Role(this, 'CloudWatchLogsRole', {
-      roleName: 'CloudWatchLogsRole',
       assumedBy: new ServicePrincipal('appsync.amazonaws.com'),
       managedPolicies: [
         ManagedPolicy.fromAwsManagedPolicyName(
@@ -31,7 +30,7 @@ export class BackendStack extends Stack {
     });
 
     const api = new GraphqlApi(this, 'Api', {
-      name: 'pokemon',
+      name: 'rugby',
       definition: Definition.fromFile(
         path.join(__dirname, '../schema.graphql'),
       ),
@@ -47,7 +46,7 @@ export class BackendStack extends Stack {
       xrayEnabled: true,
     });
 
-    const pokemonTable = new TableV2(this, 'PokemonTable', {
+    const rugbyTable = new TableV2(this, 'RugbyTable', {
       partitionKey: {
         name: 'PK',
         type: AttributeType.STRING,
@@ -58,10 +57,7 @@ export class BackendStack extends Stack {
       },
     });
 
-    const pokemonDS = api.addDynamoDbDataSource(
-      'pokemonDataSource',
-      pokemonTable,
-    );
+    const rugbyDS = api.addDynamoDbDataSource('rugbyDataSource', rugbyTable);
 
     const defaultPipelineCode = Code.fromInline(`
     // The before step
@@ -75,61 +71,80 @@ export class BackendStack extends Stack {
     }
   `);
 
-    const getPokemon = new AppsyncFunction(this, 'GetPokemon', {
+    const getBunkerPolls = new AppsyncFunction(this, 'getBunkerPolls', {
       api,
-      name: 'getPokemon',
-      dataSource: pokemonDS,
+      name: 'getBunkerPolls',
+      dataSource: rugbyDS,
       code: bundleAppSyncResolver(
-        path.join(__dirname, '../resolvers/getPokemon.ts'),
+        path.join(__dirname, '../resolvers/getBunkerPolls.ts'),
       ),
       runtime: FunctionRuntime.JS_1_0_0,
     });
 
-    new Resolver(this, 'QueryGetPokemonResolver', {
+    new Resolver(this, 'QueryGetBunkerPollsResolver', {
       api,
       typeName: 'Query',
-      fieldName: 'getPokemon',
+      fieldName: 'getBunkerPolls',
       code: defaultPipelineCode,
       runtime: FunctionRuntime.JS_1_0_0,
-      pipelineConfig: [getPokemon],
+      pipelineConfig: [getBunkerPolls],
     });
 
-    const createPokemon = new AppsyncFunction(this, 'CreatePokemon', {
+    const createBunkerPoll = new AppsyncFunction(this, 'CreateBunkerPoll', {
       api,
-      name: 'createPokemon',
-      dataSource: pokemonDS,
+      name: 'createBunkerPoll',
+      dataSource: rugbyDS,
       code: bundleAppSyncResolver(
-        path.join(__dirname, '../resolvers/createPokemon.ts'),
+        path.join(__dirname, '../resolvers/createBunkerPoll.ts'),
       ),
       runtime: FunctionRuntime.JS_1_0_0,
     });
 
-    new Resolver(this, 'MutationCreatePokemonResolver', {
+    new Resolver(this, 'MutationCreateBunkerPollResolver', {
       api,
       typeName: 'Mutation',
-      fieldName: 'createPokemon',
+      fieldName: 'createBunkerPoll',
       code: defaultPipelineCode,
       runtime: FunctionRuntime.JS_1_0_0,
-      pipelineConfig: [createPokemon],
+      pipelineConfig: [createBunkerPoll],
     });
 
-    const getPokemons = new AppsyncFunction(this, 'GetPokemons', {
+    const voteBunkerPoll = new AppsyncFunction(this, 'VoteBunkerPoll', {
       api,
-      name: 'getPokemons',
-      dataSource: pokemonDS,
+      name: 'voteBunkerPoll',
+      dataSource: rugbyDS,
       code: bundleAppSyncResolver(
-        path.join(__dirname, '../resolvers/getPokemons.ts'),
+        path.join(__dirname, '../resolvers/voteBunkerPoll.ts'),
       ),
       runtime: FunctionRuntime.JS_1_0_0,
     });
 
-    new Resolver(this, 'QueryGetPokemonsResolver', {
+    new Resolver(this, 'MutationVoteBunkerPollResolver', {
       api,
-      typeName: 'Query',
-      fieldName: 'getPokemons',
+      typeName: 'Mutation',
+      fieldName: 'voteBunkerPoll',
       code: defaultPipelineCode,
       runtime: FunctionRuntime.JS_1_0_0,
-      pipelineConfig: [getPokemons],
+      pipelineConfig: [voteBunkerPoll],
+    });
+
+    const stopBunkerPoll = new AppsyncFunction(this, 'StopBunkerPoll', {
+      api,
+      name: 'stopBunkerPoll',
+      dataSource: rugbyDS,
+      code: bundleAppSyncResolver(
+        path.join(__dirname, '../resolvers/stopBunkerPoll.ts'),
+      ),
+      runtime: FunctionRuntime.JS_1_0_0,
+    });
+
+    new Resolver(this, 'MutationStopBunkerPollResolver', {
+      api,
+      typeName: 'Mutation',
+      fieldName: 'stopBunkerPoll',
+      code: defaultPipelineCode,
+      runtime: FunctionRuntime.JS_1_0_0,
+      pipelineConfig: [stopBunkerPoll],
     });
   }
 }

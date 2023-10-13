@@ -15,5 +15,5 @@ type Mutation {
 
 type Subscription {
   onBunkerPollUpdated: bunkerPoll
-    @aws_subscribe(mutations: ["createBunker", "voteBunkerPoll"])
+    @aws_subscribe(mutations: ["createBunkerPoll", "voteBunkerPoll"])
 }
